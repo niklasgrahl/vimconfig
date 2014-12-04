@@ -1,31 +1,12 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/Vim/vimfiles/bundle/Vundle.vim
-let path='~/Vim/vimfiles/bundle'
+source $VIM/_vimrc_include
+
 call vundle#begin(path)
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
 
 Plugin 'ctrlp.vim'
 Plugin 'The-NERD-Commenter'
@@ -35,31 +16,25 @@ Plugin 'Syntastic'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'taglist-plus'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'surround-vim'
+Plugin 'tpope/vim-surround'
 Plugin 'zeis/vim-kolor'
 Plugin 'JavaScript-Indent'
+Plugin 'rking/ag.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'tpope/vim-fugitive'
+Plugin 'jaxbot/github-issues.vim'
 " lh-vim-lib
 " local-vimrc
 " taglist
 " vim-nerdtree-tabs
 
-
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
+" Put your non-Plugin stuff after this line
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
@@ -126,6 +101,9 @@ set softtabstop=2
 set wildmode=longest,list,full
 set wildmenu
 
+" enable alt shortcuts
+set winaltkeys=no
+
 "ctags
 let Tlist_Ctags_Cmd = '"C:\Users\Niklas\Vim\ctags\ctags.exe"'
 
@@ -141,10 +119,11 @@ map ,ve :e C:\Users\Niklas\Vim\_vimrc<CR>
 map ,/ :nohl<CR>
 map <F7> mzgg=G`z<CR>
 map ,oc :!chrome file:///%:p 
+map ,r :!explorer %:h 
 map ,bn :bn<CR>
 map ,bp :bp<CR>
 map ,bd :bp<bar>sp<bar>bn<bar>bd<CR>
-map ,p p=']
+map ,= =']
 
 set foldmethod=indent
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -198,7 +177,13 @@ set foldtext=CustomFoldText()
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPLastMode'
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.git|node_modules|bower_components)$',
+  \ 'dir':  '\v[\/](\.git|node_modules|bower_components|\.sass-cache)$',
   \ 'file': '\v(\.swp|\~)$',
   \ }
+
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
+let g:github_access_token = "6bffa827d0506bd696287d4638fb960f4400a82a"

@@ -1,3 +1,4 @@
 *
 !.gitignore
-!_vimrc
+!_vimrc*
+*~
