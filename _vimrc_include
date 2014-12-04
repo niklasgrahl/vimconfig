@@ -1,3 +1,5 @@
 " set the runtime path to include Vundle and initialize
-set rtp+=~/Vim/vimfiles/bundle/Vundle.vim
-let path='~/Vim/vimfiles/bundle'
+set rtp+=~/.vim/bundle/Vundle.vim
+let path='~/.vim/bundle'
+" set rtp+=~/Vim/vimfiles/bundle/Vundle.vim
+" let path='~/Vim/vimfiles/bundle'

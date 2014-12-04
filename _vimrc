@@ -1,7 +1,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-source $VIM/_vimrc_include
+source ~/_vimrc_include
 
 call vundle#begin(path)
 
@@ -65,9 +65,6 @@ function! MyDiff()
 endfunction
 
 "Personal Settings.
-"More to be added soon.
-execute pathogen#infect()
-filetype plugin indent on
 syntax on
 
 "Set Color Scheme and Font Options
@@ -115,7 +112,7 @@ map ,nt :NERDTreeToggle<CR>
 map ,nf :NERDTreeFind<CR>
 
 map ,tn :tabnew<CR>
-map ,ve :e C:\Users\Niklas\Vim\_vimrc<CR>
+map ,ve :e $MYVIMRC<CR>
 map ,/ :nohl<CR>
 map <F7> mzgg=G`z<CR>
 map ,oc :!chrome file:///%:p 
@@ -187,3 +184,8 @@ filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
 let g:github_access_token = "6bffa827d0506bd696287d4638fb960f4400a82a"
+
+" fix colors in putty
+if has('unix')
+  set t_Co=256
+endif
