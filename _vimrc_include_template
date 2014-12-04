@@ -3,3 +3,5 @@ set rtp+=~/.vim/bundle/Vundle.vim
 let path='~/.vim/bundle'
 " set rtp+=~/Vim/vimfiles/bundle/Vundle.vim
 " let path='~/Vim/vimfiles/bundle'
+
+let g:github_access_token = ""
