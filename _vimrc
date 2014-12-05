@@ -183,9 +183,16 @@ let g:ctrlp_custom_ignore = {
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
-let g:github_access_token = "6bffa827d0506bd696287d4638fb960f4400a82a"
-
 " fix colors in putty
 if has('unix')
   set t_Co=256
 endif
+
+" Uncomment below to prevent 'tilde backup files' (eg. myfile.txt~) from being created
+" set nobackup
+
+" Uncomment below to cause 'tilde backup files' to be created in a different dir so as not to clutter up the current file's directory (probably a better idea than disabling them altogether)
+set backupdir=$TEMP
+
+" Uncomment below to disable 'swap files' (eg. .myfile.txt.swp) from being created
+set noswapfile
