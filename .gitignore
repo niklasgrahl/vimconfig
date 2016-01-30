@@ -1,5 +1,6 @@
 *
 !.gitignore
 !_vimrc*
+!.vimrc
 _vimrc_include
 *~
