@@ -1,0 +1,46 @@
+snippet rsl "export stateless (dumb) react component"
+import React from 'react';
+
+const $1 = ({}) => {
+  return (
+    <div>
+      $2
+    </div>
+  );
+};
+
+export default $1;
+endsnippet
+
+
+snippet rcl "export react class component"
+import React, { Component, PropTypes } from 'react';
+
+class $1 extends Component {
+  static propTypes = {
+    
+  };
+
+  render () {
+    const { $2 } = this.props;
+    return (
+      <div>
+	$3
+      </div>
+    );
+  }
+}
+
+export default $1;
+endsnippet
+
+snippet flow "Add flow type checking"
+/* @flow */
+endsnippet
+
+snippet prop "React static propTypes"
+static propTypes = {
+  $1: PropTypes.${2:string}.isRequired,
+  ${3:children: PropTypes.node}
+};
+endsnippet

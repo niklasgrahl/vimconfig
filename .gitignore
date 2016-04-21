@@ -1,5 +1,2 @@
-*
-!.gitignore
-!_vimrc*
-_vimrc_include
-*~
+bundle
+.DS_Store
