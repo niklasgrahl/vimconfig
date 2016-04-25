@@ -1,48 +1,48 @@
-if !has('nvim')
+﻿if !has('nvim')
   set nocompatible              " be iMproved, required
 endif
 
-filetype off                  " required
+call plug#begin()
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+Plug 'VundleVim/Vundle.vim' 
+Plug 'tpope/vim-fugitive'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'The-NERD-tree'
+Plug 'Syntastic'
+Plug 'tpope/vim-surround'
+Plug 'zeis/vim-kolor'
+Plug 'rking/ag.vim'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'tpope/vim-unimpaired'
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'othree/yajs.vim'
+Plug 'elzr/vim-json'
+Plug 'bling/vim-airline'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/vim-easy-align'
+" Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'
+Plug 'ternjs/tern_for_vim'
+Plug 'SirVer/ultisnips'
+Plug 'isRuslan/vim-es6'
+Plug 'tpope/vim-markdown'
+Plug 'jtratner/vim-flavored-markdown'
+Plug 'BufOnly.vim'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'benekastah/neomake'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
 
-Plugin 'VundleVim/Vundle.vim' 
-Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlp.vim'
-Plugin 'The-NERD-tree'
-Plugin 'Syntastic'
-Plugin 'tpope/vim-surround'
-Plugin 'zeis/vim-kolor'
-Plugin 'rking/ag.vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'maxbrunsfeld/vim-yankstack'
-Plugin 'othree/yajs.vim'
-Plugin 'elzr/vim-json'
-Plugin 'bling/vim-airline'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'majutsushi/tagbar'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'isRuslan/vim-es6'
-Plugin 'tpope/vim-markdown'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'BufOnly.vim'
-Plugin 'heavenshell/vim-jsdoc'
-Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'benekastah/neomake'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-abolish'
+call plug#end()            " required
 
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" Put your non-Plugin stuff after this line
+" Neovim-qt Guifont command, to change the font
+command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>")
+" Set font on startq
+let g:Guifont="DejaVu Sans Mono:h12"
+let g:airline_powerline_fonts = 1
 
 colorscheme kolor
 syntax on
@@ -88,9 +88,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:tern_map_keys=1
 let g:tern_show_argument_hints='on_hold'
 
-source folding.vim
-source reveal.vim
-source large-files.vim
+
+exec "source " . expand("<sfile>:p:h") . "/folding.vim"
+exec "source " . expand("<sfile>:p:h") . "/reveal.vim"
+exec "source " . expand("<sfile>:p:h") . "/large-files.vim"
 
 "shortcuts
 " map ,nt :NERDTreeToggle<CR>
@@ -146,7 +147,7 @@ augroup END
 
 " use neomake instead of syntastic
 let syntastic_check_on_wq = 0
-autocmd! BufWritePost * Neomake
+autocmd! BufWritePost * if exists(":Neomake") | Neomake | endif
 
 " recreate tags file for js files
 nnoremap ,t :call jobstart([&shell, &shcf, "find . -type f -iregex .*\.js -not -path './node_modules/*' -exec jsctags {} -f \; \| sed '/^$/d' \| sort > tags"])
