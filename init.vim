@@ -2,13 +2,23 @@
   set nocompatible              " be iMproved, required
 endif
 
-call plug#begin()
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
 
-Plug 'VundleVim/Vundle.vim' 
+if has('mac')
+  call plug#begin('~/.vim/plugged')
+endif
+if has('win32')
+  call plug#begin()
+endif
+
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+" Plug 'VundleVim/Vundle.vim' 
 Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'The-NERD-tree'
-Plug 'Syntastic'
+" Plug 'The-NERD-tree'
+" Plug 'Syntastic'
 Plug 'tpope/vim-surround'
 Plug 'zeis/vim-kolor'
 Plug 'rking/ag.vim'
@@ -23,7 +33,8 @@ Plug 'junegunn/vim-easy-align'
 " Plug 'Valloric/YouCompleteMe'
 Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
-Plug 'ternjs/tern_for_vim'
+" Plug 'ternjs/tern_for_vim'
+Plug 'carlitux/deoplete-ternjs'
 Plug 'SirVer/ultisnips'
 Plug 'isRuslan/vim-es6'
 Plug 'tpope/vim-markdown'
@@ -35,14 +46,20 @@ Plug 'benekastah/neomake'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
+Plug 'sjl/gundo.vim'
+Plug 'Shougo/deoplete.vim'
 
 call plug#end()            " required
 
-" Neovim-qt Guifont command, to change the font
-command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>")
-" Set font on startq
-let g:Guifont="DejaVu Sans Mono:h12"
-let g:airline_powerline_fonts = 1
+if has('win32')
+  " Neovim-qt Guifont command, to change the font
+  command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>")
+  " Set font on startq
+  let g:Guifont="DejaVu Sans Mono:h12"
+  let g:airline_powerline_fonts = 1
+endif
+
+filetype plugin indent on    " required
 
 colorscheme kolor
 syntax on
@@ -88,7 +105,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:tern_map_keys=1
 let g:tern_show_argument_hints='on_hold'
 
-
 exec "source " . expand("<sfile>:p:h") . "/folding.vim"
 exec "source " . expand("<sfile>:p:h") . "/reveal.vim"
 exec "source " . expand("<sfile>:p:h") . "/large-files.vim"
@@ -129,6 +145,10 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 " add extra space before comment (// abc instead of //abc)
 let NERDSpaceDelims = 1

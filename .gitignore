@@ -1,2 +1,6 @@
 bundle
+plugged
 .DS_Store
+.netrwhist
+autoload
+.init.vim-rplugin~
