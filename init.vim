@@ -13,9 +13,9 @@ if has('win32')
   call plug#begin()
 endif
 
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 " Plug 'VundleVim/Vundle.vim' 
 Plug 'tpope/vim-fugitive'
+Plug 'tommcdo/vim-fugitive-blame-ext'
 Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'The-NERD-tree'
 " Plug 'Syntastic'
@@ -33,7 +33,8 @@ Plug 'junegunn/vim-easy-align'
 " Plug 'Valloric/YouCompleteMe'
 Plug 'scrooloose/nerdcommenter'
 Plug 'majutsushi/tagbar'
-" Plug 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
+Plug 'Shougo/deoplete.nvim'
 Plug 'carlitux/deoplete-ternjs'
 Plug 'SirVer/ultisnips'
 Plug 'isRuslan/vim-es6'
@@ -47,7 +48,9 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
 Plug 'sjl/gundo.vim'
-Plug 'Shougo/deoplete.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'tpope/vim-vinegar'
+Plug 'jlanzarotta/bufexplorer'
 
 call plug#end()            " required
 
@@ -93,6 +96,7 @@ let g:airline#extensions#tabline#fnamemod = ':s?index.js??'
 let g:airline#extensions#tabline#fnamecollapse = 0
 let g:syntastic_javascript_checkers=['eslint']
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_extensions = ['line']
 let g:python_host_prog = '/usr/bin/python'
 
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript']
@@ -124,6 +128,10 @@ nmap <SPACE> za
 vmap <C-x> :!pbcopy<CR>  
 vmap <C-c> :w !pbcopy<CR><CR> 
 
+" Shortcut: Edit/Write file in same directory
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+map <Leader>w :w <C-R>=expand("%:p:h") . "/" <CR>
+
 imap jj <ESC>
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -140,6 +148,14 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" same mappings on mac
+nnoremap ∆ :m .+1<CR>==
+nnoremap ˚ :m .-2<CR>==
+inoremap ∆ <Esc>:m .+1<CR>==gi
+inoremap ˚ <Esc>:m .-2<CR>==gi
+vnoremap ∆ :m '>+1<CR>gv=gv
+vnoremap ˚ :m '<-2<CR>gv=gv
+
 " move windows around easily
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -148,10 +164,47 @@ map <C-l> <C-w>l
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Space>\<Space>"
+
+" Enable file source completion from the current buffer path
+let g:deoplete#file#enable_buffer_path = 1
+
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+" let g:deoplete#disable_auto_complete = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " add extra space before comment (// abc instead of //abc)
 let NERDSpaceDelims = 1
+
+" omnifuncs
+augroup omnifuncs
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup end
+" tern
+if exists('g:plugs["tern_for_vim"]')
+  let g:tern_show_argument_hints = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+endif
+
+" Use deoplete.
+" let g:tern_request_timeout = 1
+" let g:tern_show_signature_in_pum = 0  " This do disable full signature type on autocomplete
+
+" deoplete tab-complete
+" inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+" " ,<Tab> for regular tab
+inoremap <Leader><Tab> <Space><Space>
+" tern
+autocmd FileType javascript nnoremap <silent> <buffer> gb :TernDef<CR>
 
 if has('mac')
   nmap π <Plug>yankstack_substitute_older_paste
@@ -174,5 +227,19 @@ nnoremap ,t :call jobstart([&shell, &shcf, "find . -type f -iregex .*\.js -not -
 
 " try to get ycm to use ctags file
 let g:ycm_collect_identifiers_from_tags_files = 0
+
+" toggle relativenumber
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
+
+" kill netrw buffer when hidden
+autocmd FileType netrw setl bufhidden=wipe
 
 call yankstack#setup()
