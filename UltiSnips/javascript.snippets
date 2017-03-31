@@ -36,6 +36,7 @@ endsnippet
 
 snippet flow "Add flow type checking"
 /* @flow */
+
 endsnippet
 
 snippet prop "React static propTypes"
@@ -43,4 +44,62 @@ static propTypes = {
   $1: PropTypes.${2:string}.isRequired,
   ${3:children: PropTypes.node}
 };
+endsnippet
+
+snippet testr "Add unit test case for reducer" m
+it('${1:ACTION} should ${2:[do something]}', function () {
+	const previousState = ${3:reducer}();
+
+	const actual = $3(previousState, {type: $1});
+
+	const expected = previousState.set('${4:someProp}', '${5:some value}');
+
+	expect(actual).to.equal(expected);
+});
+endsnippet
+
+snippet it( "unit test" mb
+it('$1', function () {
+	const actual = $2;
+
+	const expected = $3;
+
+	expect(actual).to.equal(expected);
+});
+endsnippet
+
+snippet pr "reducer unit test" mb
+const previousState = new ${1:BrandRecord}(${2:brand1});
+
+const actualState = ${3:brandReducer}(previousState, {
+	type: ${4:ACTION},
+	data: ${5:{
+		key:  brand1.rules.draft.footer.links[0].key,
+		text: 'test text'
+	}}
+});
+
+const expectedState = previousState.setIn(${6:['rules', 'draft', 'footer', 'links', 0, 'text']}, ${7:'test text'});
+
+expect(actualState).to.equal(expectedState);
+endsnippet
+
+snippet RR "brand reducer unit test" mb
+const previousState = new BrandRecord({
+	${2:isSavingRules}: true
+});
+
+const actualState = brandReducer(previousState, {
+	type: ${1:SAVE_BRAND_RULES_ERROR}
+});
+
+const expectedState = new BrandRecord({
+	$2: false
+});
+
+expect(actualState).to.equal(expectedState);
+endsnippet
+
+snippet im "import" mb
+import ${1/(^.)([a-z]*)(-?)([a-z]?)/\u$1$2\u$4/} from '$1';
 endsnippet

@@ -12,32 +12,21 @@ set nocompatible              " be iMproved, required
   endfunction
 
   call plug#begin(b:plugin_dir)
+    " Essential
     Plug 'Shougo/deoplete.nvim', { 'do': function('DeopletePostUpdate') }
-    " Plug 'mhartington/deoplete-typescript'
-    Plug 'carlitux/deoplete-ternjs'
-    " Plug 'Shougo/neoinclude.vim'
-    Plug '1995eaton/vim-better-javascript-completion'
-    Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
-
-    " Linting
     Plug 'benekastah/neomake'
+    Plug 'Lokaltog/vim-easymotion'
+    Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
+    Plug 'wellle/targets.vim' " Adds more targets to operate on e.g. change inside parens or delete item in list
+    Plug 'maxbrunsfeld/vim-yankstack'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-fugitive' " Git commands
 
     " UI
     Plug 'zeis/vim-kolor'
     Plug 'nanotech/jellybeans.vim'
     Plug 'bling/vim-airline'
     Plug 'airblade/vim-gitgutter'
-
-    " Language specifics
-    Plug 'othree/yajs.vim'
-    Plug 'elzr/vim-json'
-    Plug 'mxw/vim-jsx'
-    Plug 'isRuslan/vim-es6'
-    Plug 'jtratner/vim-flavored-markdown'
-    Plug 'moll/vim-node'
-    Plug 'heavenshell/vim-jsdoc'
-    Plug 'tpope/vim-markdown'
-    Plug 'flowtype/vim-flow', {'do': 'npm install -g flow-bin', 'for': 'javascript'}
 
     " Unite
     Plug 'Shougo/unite.vim'
@@ -55,40 +44,62 @@ set nocompatible              " be iMproved, required
     Plug 'junegunn/vim-easy-align' " Align text
     Plug 'tpope/vim-surround' " Surround text with parens, brackets, tags etc.
     Plug 'tommcdo/vim-exchange' " Exchange text
-    " Plug 'jiangmiao/auto-pairs' " Automatically insert or delete brackets, parens, quotes in pairs
-    Plug 'Shougo/neopairs.vim'
-    Plug 'wellle/targets.vim' " Adds more targets to operate on e.g. change inside parens or delete item in list
     Plug 'tpope/vim-abolish' " Easily search for, substitute, and abbreviate multiple variants of a word
     Plug 'scrooloose/nerdcommenter' " Insert/remove comments
-    " Plug 'Raimondi/delimitMate' " Autimatically close quotes, parenthesis, brackets etc.
-
-    " Moving within document
-    Plug 'Lokaltog/vim-easymotion'
-    Plug 'terryma/vim-multiple-cursors'
-    Plug 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
 
     " Snippets
     Plug 'SirVer/ultisnips'
 
     " View information
-    Plug 'majutsushi/tagbar'
     Plug 'sjl/gundo.vim' " Show undo tree
-    Plug 'tpope/vim-fugitive' " Git commands
     Plug 'tommcdo/vim-fugitive-blame-ext' " Shows commit message for current line in Gblame
+    Plug 'machakann/vim-highlightedyank'
+
+    " Javascript
+    Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
+    Plug '1995eaton/vim-better-javascript-completion', { 'for': 'javascript' }
+    Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': 'javascript' }
+    " Plug 'flowtype/vim-flow', {'do': 'npm install -g flow-bin', 'for': 'javascript' }
+    Plug 'steelsojka/deoplete-flow', { 'for': 'javascript' }
+    Plug 'elzr/vim-json', { 'for': 'json'}
+    Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+    Plug 'pangloss/vim-javascript' , { 'for': 'javascript' }
+    Plug 'moll/vim-node', { 'for': 'javascript' }
+    Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
+
+    " Markdown
+    Plug 'jtratner/vim-flavored-markdown', { 'for': ['markdown', 'ghmarkdown'] }
+    Plug 'tpope/vim-markdown', { 'for': ['markdown', 'ghmarkdown'] }
 
     " Not yet categorized
     Plug 'BufOnly.vim'
-    Plug 'maxbrunsfeld/vim-yankstack'
-    Plug 'tpope/vim-repeat'
-    " Plug 'tpope/vim-vinegar' " Combine with netrw
-    Plug 'szw/vim-tags'
     Plug 'freitass/todo.txt-vim'
 
+    " For debugging
+    " Plug 'gerw/vim-HiLinkTrace'
+
+    " Disabled
+    " Plug 'otree/yajs.vim'
+    " Plug 'mhartington/deoplete-typescript'
+    " Plug 'Shougo/neoinclude.vim'
+    " Plug 'isRuslan/vim-es6'
+    " Plug 'kern/vim-es7'
+    " Plug 'jiangmiao/auto-pairs' " Automatically insert or delete brackets, parens, quotes in pairs
+    " Plug 'Raimondi/delimitMate' " Autimatically close quotes, parenthesis, brackets etc.
+    " Plug 'terryma/vim-multiple-cursors'
+    " Plug 'majutsushi/tagbar'
+    " Plug 'szw/vim-tags'
+    " Plug 'tpope/vim-vinegar' " Combine with netrw
+    " Plug 'Shougo/neopairs.vim'
+
+    " Try out later
+    " Plug 'bkad/CamelCaseMotion' " Currently has conflicting mappings with targets.vim
+    " Plug 'chrisbra/NrrwRgn'
 
     " Not working
     " Plug 'bigfish/vim-js-context-coloring', {'branch': 'neovim', 'do' : 'npm install --update'}
     " if has('nvim')
-      " Plug 'neovim/node-host', {'do': 'npm install --update'}
+    "   Plug 'neovim/node-host', {'do': 'npm install --update'}
     " endif
   call plug#end()
 
@@ -106,7 +117,6 @@ set nocompatible              " be iMproved, required
     set laststatus=2 " make sure airline appears
   endif
 
-  set noswapfile
   set number "show line numbers
   set hidden "allow hidden buffers
 
@@ -138,11 +148,16 @@ set nocompatible              " be iMproved, required
   exec "source " . expand("<sfile>:p:h") . "/large-files.vim"
 
 " Plugin settings
+  if exists('g:plugs["vim-javascript"]')
+    let g:javascript_plugin_flow = 1
+    set foldmethod=syntax
+  endif
+
   if exists('g:plugs["vim-airline"]')
     let g:airline#extensions#tabline#enabled = 1
     " let g:airline#extensions#tabline#fnamemod = ':p:s?index.js??'
-    let g:airline#extensions#tabline#fnamemod = ':.'
-    let g:airline#extensions#tabline#fnamecollapse = 0
+    " let g:airline#extensions#tabline#fnamemod = ':.'
+    let g:airline#extensions#tabline#fnamecollapse = 1
 
     let g:airline#extensions#tabline#fnametruncate = 0
 
@@ -175,10 +190,9 @@ set nocompatible              " be iMproved, required
     let g:tern_show_signature_in_pum = 1
     " autocmd FileType javascript setlocal omnifunc=tern#Complete
     "
+    let g:tern_set_omni_function = 0
     let g:tern_map_keys=1
     let g:tern_show_argument_hints='on_hold'
-
-    nnoremap gd :TernDef<CR>
   endif
 
   if exists('g:plugs["neomake"]')
@@ -186,25 +200,37 @@ set nocompatible              " be iMproved, required
     let syntastic_check_on_wq = 0
     augroup neomake_config
       autocmd!
-      autocmd BufWritePost * if exists(":Neomake") | Neomake | endif
+      autocmd BufWritePost * Neomake
     augroup END
 
     let g:neomake_javascript_eslint_exe = system('echo -n `npm bin`') . '/eslint'
-    let g:neomake_javascript_flow_maker = {
-            \ 'args': ['--old-output-format', '--one-line'],
-            \ 'errorformat': '%E%f:%l:%c\,%n: %m',
-            \ 'mapexpr': 'substitute(v:val, "\\\\n", " ", "g")'
-            \ }
-    let g:neomake_javascript_enabled_makers = ['eslint', 'flow']
+    " let g:neomake_javascript_eslint_exe = 'eslint'
+    " let g:neomake_javascript_flow_maker = {
+            " \ 'exe': system('echo -n `npm bin`') . '/flow',
+            " \ 'args': ['--json'],
+            " \ 'errorformat': '%EFile "%f"\, line %l\, characters %c-%.%#,%Z%m',
+            " \ 'buffer_output': 1
+            " \ }
+    let g:neomake_javascript_enabled_makers = ['eslint']
   endif
 
   if exists('g:plugs["vim-flow"]')
-    let g:flow#enable = 0
+    let g:flow#enable = 1
+    let g:flow#omnifunc = 0 "prevent overwriting existing omnifunc
+    " let g:flow#autoclose
+    " let g:flow#qfsize
+    setl omnifunc=flowcomplete#Complete
+    nnoremap gh :FlowGetImporters<CR>
+    nnoremap gt :FlowType<CR>
   endif
 
   if exists('g:plugs["vimfiler.vim"]')
     let g:vimfiler_as_default_explorer = 1
     nnoremap - :VimFilerBufferDir -find<CR>
+  endif
+
+  if exists('g:plugs["vim-jsx"]')
+    let g:jsx_ext_required=1
   endif
 
   if exists('g:plugs["vim-jsdoc"]')
@@ -235,17 +261,20 @@ set nocompatible              " be iMproved, required
     " endif
     let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--vimgrep'
+    let g:unite_source_grep_default_opts = '-i --vimgrep'
     let g:unite_source_line_enable_highlight = 1
-    call unite#custom#source('buffer,file,file_rec,file_rec/async', 'sorters', 'sorter_selecta')
-    call unite#custom#source('neomru/file', 'converters', ['converter_relative_abbr'])
+    call unite#custom#source('buffer,neomru/file,file_rec/neovim', 'sorters', 'sorter_selecta')
+    call unite#custom#source('buffer,neomru/file,file_rec/neovim', 'matchers', ['matcher_project_files', 'matcher_fuzzy'])
+    call unite#custom#source('file_rec/neovim', 'required_pattern_length', 3)
+    call unite#custom#source('neomru/file', 'max_candidates', 200)
+    call unite#custom#source('neomru/file,file_rec/neovim', 'converters', ['converter_relative_abbr'])
 
     " function! Grep_syntax(args, context)
       " set syntax=javascript
     " endfunction
     " call unite#custom#source('grep', 'on_syntax', function('Grep_syntax'))
 
-    nnoremap <silent> <c-p> :Unite -auto-resize -start-insert -direction=botright buffer neomru/file file_rec/async<cr>
+    nnoremap <silent> <c-p> :Unite -auto-resize -start-insert -direction=botright buffer neomru/file file_rec/neovim<cr>
     nnoremap gr :Unite grep:.<CR>
     nnoremap <Leader>f :UniteWithCursorWord grep:.<CR>
     nnoremap <Leader>u<CR> :Unite<CR>
@@ -256,6 +285,7 @@ set nocompatible              " be iMproved, required
     nnoremap <Leader>uq :Unite quickfix<CR>
     nnoremap <Leader>ul :Unite location_list<CR>
     nnoremap <Leader>um :Unite mapping<CR>
+    nnoremap <Leader>o :Unite output<CR>
 
     vnoremap gr y:Unite grep:.::<C-R>"
 
@@ -318,20 +348,26 @@ set nocompatible              " be iMproved, required
     " Enable file source completion from the current buffer path
     let g:deoplete#file#enable_buffer_path = 1
 
-    if !exists('g:deoplete#omni#input_patterns')
+    " if !exists('g:deoplete#omni#input_patterns')
+      let g:deoplete#omni_patterns = {}
+      let g:deoplete#omni_patterns.javascript = '\.\w*'
+
       let g:deoplete#omni#input_patterns = {}
-    endif
+      let g:deoplete#omni#input_patterns.javascript = ['\.\w*', '\= \w*']
+    " endif
     " let g:deoplete#disable_auto_complete = 1
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
     let g:deoplete#enable_ignore_case = 1
-    let g:deoplete#auto_complete_start_length = 0
-    let g:auto_complete_start_length = 0
-    let g:deoplete#enable_refresh_always = 1
-    let g:deoplete#enable_debug = 1
-    let g:deoplete#enable_profile = 1
-    let g:deoplete#sources#tss#javascript_support = 1
+    " let g:deoplete#auto_complete_start_length = 0
+    " let g:auto_complete_start_length = 0
+    " let g:deoplete#enable_refresh_always = 1
+    " let g:deoplete#enable_debug = 1
+    " let g:deoplete#enable_profile = 1
+    " let g:deoplete#sources#tss#javascript_support = 1
     "call deoplete#enable_logging('DEBUG', $HOME.'/deoplete.log') 
+    "
+		inoremap <expr><C-z> deoplete#mappings#manual_complete()
   endif
 
   if exists('g:plugs["vim-json"]')
@@ -343,6 +379,12 @@ set nocompatible              " be iMproved, required
     call yankstack#setup()
   endif
 
+  if exists('g:plugs["targets.vim"]')
+    " Add curly braces as argument separator
+    let g:targets_argOpening = '[({[]'
+    let g:targets_argClosing = '[]})]'
+  endif
+
 " Mappings - Start
   noremap <Leader>ve :e $MYVIMRC<CR>
   noremap <Leader>/ :nohl<CR>
@@ -351,7 +393,7 @@ set nocompatible              " be iMproved, required
   noremap <Leader>oc :!open -a "Google Chrome" file:///%:p 
   noremap <Leader>bn <nop> " use ]b instead
   noremap <Leader>bp <nop>
-  noremap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+  noremap <Leader>bd :bd<CR>
   noremap <Leader>bo :BufOnly<CR>
   noremap <Leader>bb :b#<CR>
   noremap <Leader>= =']
@@ -361,7 +403,7 @@ set nocompatible              " be iMproved, required
 
   " Shortcut: Edit/Write file in same directory
   noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-  noremap <Leader>w :w <C-R>=expand("%:p:h") . "/" <CR>
+  " noremap <Leader>w :w <C-R>=expand("%:p:h") . "/" <CR>
 
   inoremap jk <ESC>
   inoremap <ESC> <nop>
@@ -369,6 +411,30 @@ set nocompatible              " be iMproved, required
   " Easy align
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
+
+  let g:enable_tern_goto = 0
+
+  " Go to definition
+  function! GoToDef()
+    redir => s:messages
+      FlowJumpToDef
+    redir END
+
+    let s:lastmsg=get(split(s:messages, "\n"), -1, "")
+
+    if (s:lastmsg ==? 'No definition found' || s:lastmsg ==? 'cannot find definition') && g:enable_tern_goto == 1
+      redir => s:messages
+        TernDef
+      redir END
+      let s:lastmsg=get(split(s:messages, "\n"), -1, "")
+
+      if s:lastmsg ==? 'timed out'
+        TernDef
+      endif
+    endif
+  endfunction
+
+  nnoremap gd :call GoToDef()<CR>
 
   " move lines up or down mappings
   nnoremap <A-j> :m .+1<CR>==
@@ -396,13 +462,12 @@ set nocompatible              " be iMproved, required
   vnoremap // y/<C-R>"<CR>
 
   " keep the current visual block selection active after changing indent with '<' or '>'
-  vmap > >gv
-  vmap < <gv
+  vnoremap > >gv
+  vnoremap < <gv
 
   " Unmap unnecessary default key mappings
   nnoremap Q <NOP>
   nnoremap + <NOP>
-
 
   " toggle relativenumber
   function! NumberToggle()
@@ -422,7 +487,8 @@ set nocompatible              " be iMproved, required
 
 " Commands
   " Eslint - External eslint --fix command for current file
-  command! EslintFix !eslint % --fix
+  " command! EslintFix !eslint % --fix
+  command! EslintFix execute '!' . g:neomake_javascript_eslint_exe . ' % --fix' | :e | :Neomake
 
 " Autocommands
   augroup omnifuncs
@@ -430,6 +496,7 @@ set nocompatible              " be iMproved, required
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType javascript setlocal omnifunc=
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   augroup end
@@ -438,6 +505,28 @@ set nocompatible              " be iMproved, required
     au!
     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
   augroup END
+
+fu! CustomFoldText()
+  let fs = v:foldstart
+  while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+  endwhile
+  if fs > v:foldend
+    let line = getline(v:foldstart)
+  else
+    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+  endif
+
+  let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+  let foldSize = 1 + v:foldend - v:foldstart
+  let foldSizeStr = " " . foldSize . " lines "
+  let foldLevelStr = repeat("+--", v:foldlevel)
+  let lineCount = line("$")
+  let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+  let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
+  return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+endf
+
+set foldtext=CustomFoldText()
 
 " Trash (Old settings no longer in use)
   " recreate tags file for js files
