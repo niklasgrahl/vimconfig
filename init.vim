@@ -59,7 +59,7 @@ set nocompatible              " be iMproved, required
     Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
     Plug '1995eaton/vim-better-javascript-completion', { 'for': 'javascript' }
     Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': 'javascript' }
-    " Plug 'flowtype/vim-flow', {'do': 'npm install -g flow-bin', 'for': 'javascript' }
+    Plug 'flowtype/vim-flow', {'do': 'npm install -g flow-bin', 'for': 'javascript' }
     Plug 'steelsojka/deoplete-flow', { 'for': 'javascript' }
     Plug 'elzr/vim-json', { 'for': 'json'}
     Plug 'mxw/vim-jsx', { 'for': 'javascript' }
@@ -72,7 +72,7 @@ set nocompatible              " be iMproved, required
     Plug 'tpope/vim-markdown', { 'for': ['markdown', 'ghmarkdown'] }
 
     " Not yet categorized
-    Plug 'BufOnly.vim'
+    Plug 'vim-scripts/BufOnly.vim'
     Plug 'freitass/todo.txt-vim'
 
     " For debugging
@@ -119,6 +119,7 @@ set nocompatible              " be iMproved, required
 
   set number "show line numbers
   set hidden "allow hidden buffers
+  set noswapfile
 
   set pastetoggle=<F2> "toggle paste mode with F2
   set ignorecase
