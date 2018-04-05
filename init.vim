@@ -1,11 +1,6 @@
-set nocompatible              " be iMproved, required
-
-" Load plugins
-  let b:plugin_dir = ''
-
-  if has('mac')
-    let b:plugin_dir = '~/.vim/plugged'
-  endif
+set nocompatible " be iMproved, required
+" --- PLUGINS ---
+  let b:plugin_dir = '~/.vim/plugged'
 
   function! DeopletePostUpdate(arg)
     UpdateRemotePlugins
@@ -24,17 +19,17 @@ set nocompatible              " be iMproved, required
 
     " UI
     Plug 'zeis/vim-kolor'
+    Plug 'mhartington/oceanic-next'
     Plug 'nanotech/jellybeans.vim'
-    Plug 'bling/vim-airline'
     Plug 'airblade/vim-gitgutter'
+    Plug 'itchyny/lightline.vim'
+    Plug 'taohex/lightline-buffer'
 
-    " Unite
-    Plug 'Shougo/unite.vim'
+    " Denite
+    Plug 'Shougo/denite.nvim'
     Plug 'Shougo/neomru.vim'
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-    Plug 'Shougo/unite-outline'
-    Plug 'ujihisa/unite-colorscheme'
-    Plug 'osyo-manga/unite-quickfix'
+    Plug 'Shougo/unite.vim' " Only until vimfiler is replaced
 
     " File explorer
     Plug 'Shougo/vimfiler.vim'
@@ -48,7 +43,7 @@ set nocompatible              " be iMproved, required
     Plug 'scrooloose/nerdcommenter' " Insert/remove comments
 
     " Snippets
-    Plug 'SirVer/ultisnips'
+    " Plug 'SirVer/ultisnips'
 
     " View information
     Plug 'sjl/gundo.vim' " Show undo tree
@@ -56,20 +51,26 @@ set nocompatible              " be iMproved, required
     Plug 'machakann/vim-highlightedyank'
 
     " Javascript
-    Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
-    Plug '1995eaton/vim-better-javascript-completion', { 'for': 'javascript' }
-    Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': 'javascript' }
-    Plug 'flowtype/vim-flow', {'do': 'npm install -g flow-bin', 'for': 'javascript' }
-    Plug 'steelsojka/deoplete-flow', { 'for': 'javascript' }
+    Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+    Plug '1995eaton/vim-better-javascript-completion', { 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'flowtype/vim-flow', {'do': 'npm install -g flow-bin', 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'steelsojka/deoplete-flow', { 'for': ['javascript', 'javascript.jsx'] }
     Plug 'elzr/vim-json', { 'for': 'json'}
-    Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-    Plug 'pangloss/vim-javascript' , { 'for': 'javascript' }
-    Plug 'moll/vim-node', { 'for': 'javascript' }
-    Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
+    " Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'maxmellon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'pangloss/vim-javascript' , { 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'moll/vim-node', { 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
+    Plug 'prettier/vim-prettier', { 'tag': '0.1.3', 'for': ['javascript', 'javascript.jsx'] }
+
 
     " Markdown
     Plug 'jtratner/vim-flavored-markdown', { 'for': ['markdown', 'ghmarkdown'] }
     Plug 'tpope/vim-markdown', { 'for': ['markdown', 'ghmarkdown'] }
+
+    " Terraform
+    Plug 'hashivim/vim-terraform'
 
     " Not yet categorized
     Plug 'vim-scripts/BufOnly.vim'
@@ -103,24 +104,16 @@ set nocompatible              " be iMproved, required
     " endif
   call plug#end()
 
-" Basic settings
+" --- BASIC SETTINGS ---
   filetype plugin indent on
 
-  colorscheme kolor
-  syntax on
-
-  if !has('nvim')
-    set autoindent
-    set encoding=utf-8
-    set hlsearch "highlight search matches
-    set mouse=a "enable mouse interaction
-    set laststatus=2 " make sure airline appears
-  endif
-
+  set autoindent
+  set encoding=utf-8
+  set laststatus=2 " make sure airline appears
+  set hlsearch "highlight search matches
+  set mouse=a "enable mouse interaction
   set number "show line numbers
   set hidden "allow hidden buffers
-  set noswapfile
-
   set pastetoggle=<F2> "toggle paste mode with F2
   set ignorecase
   set smartcase
@@ -131,11 +124,44 @@ set nocompatible              " be iMproved, required
   set softtabstop=2
   set tabstop=2
 
-  " do not wrap in the middle of a word
-  set linebreak
+  " tab completion
+  set wildmode=longest,list,full
+  set wildmenu
 
-  " use relative numbers by default, unless when not in focus
+  set linebreak " do not wrap in the middle of a word
+
   set relativenumber
+
+" --- STYLING ---
+  syntax on
+  set termguicolors
+  " colorscheme kolor
+  colorscheme OceanicNext
+
+  highlight link jsxCloseTag Function
+  highlight link jsxCloseString Function
+
+" --- PLUGIN SETTINGS ---
+  let g:javascript_plugin_flow = 1
+
+  let g:UltiSnipsExpandTrigger="<c-a>"
+
+  let NERDSpaceDelims = 1
+
+  let g:tern_show_argument_hints = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+  let g:tern_set_omni_function = 0
+  let g:tern_map_keys=1
+  let g:tern_show_argument_hints='on_hold'
+
+  let g:neopairs#enable = 1
+
+  let g:vim_json_syntax_conceal = 0 " vim-json -- don't hide double qoutes
+
+  let g:targets_argOpening = '[({[]' " targets.vim - Add curly braces as argument separator
+  let g:targets_argClosing = '[]})]'
+
+   
   au FocusLost * :set norelativenumber
   au FocusGained * :set relativenumber
 
@@ -147,6 +173,7 @@ set nocompatible              " be iMproved, required
   exec "source " . expand("<sfile>:p:h") . "/folding.vim"
   exec "source " . expand("<sfile>:p:h") . "/reveal.vim"
   exec "source " . expand("<sfile>:p:h") . "/large-files.vim"
+  exec "source " . expand("<sfile>:p:h") . "/lightline.vim"
 
 " Plugin settings
   if exists('g:plugs["vim-javascript"]')
@@ -245,92 +272,23 @@ set nocompatible              " be iMproved, required
     let g:neopairs#enable = 1
   endif
 
-  if exists('g:plugs["unite.vim"]')
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    " call unite#filters#sorter_default#use(['sorter_rank'])
-    " "call unite#custom#source('file_rec/async','sorters','sorter_rank', )
-    " " replacing unite with ctrl-p
-    " let g:unite_data_directory='~/.vim/.cache/unite'
-    " let g:unite_enable_start_insert=1
-    " let g:unite_source_history_yank_enable=1
-    " let g:unite_prompt='» '
-    " let g:unite_split_rule = 'botright'
-    " if executable('ag')
-      " let g:unite_source_grep_command='ag'
-      " let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
-      " let g:unite_source_grep_recursive_opt=''
-    " endif
-    let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '-i --vimgrep'
-    let g:unite_source_line_enable_highlight = 1
-    call unite#custom#source('buffer,neomru/file,file_rec/neovim', 'sorters', 'sorter_selecta')
-    call unite#custom#source('buffer,neomru/file,file_rec/neovim', 'matchers', ['matcher_project_files', 'matcher_fuzzy'])
-    call unite#custom#source('file_rec/neovim', 'required_pattern_length', 3)
-    call unite#custom#source('neomru/file', 'max_candidates', 200)
-    call unite#custom#source('neomru/file,file_rec/neovim', 'converters', ['converter_relative_abbr'])
+  if exists('g:plugs["denite.nvim"]')
+		call denite#custom#map('insert', 'jk', '<denite:enter_mode:normal>', 'noremap')
+    nnoremap <silent> <C-P> :Denite buffer file_mru file/rec<cr>
+    nnoremap gr :Denite grep<CR>
+    vnoremap gr y:Denite grep:::<C-R>0
 
-    " function! Grep_syntax(args, context)
-      " set syntax=javascript
-    " endfunction
-    " call unite#custom#source('grep', 'on_syntax', function('Grep_syntax'))
+    " Ripgrep command on grep source
+    call denite#custom#var('grep', 'command', ['rg'])
+    call denite#custom#var('grep', 'default_opts',
+        \ ['--vimgrep', '--no-heading'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
 
-    nnoremap <silent> <c-p> :Unite -auto-resize -start-insert -direction=botright buffer neomru/file file_rec/neovim<cr>
-    nnoremap gr :Unite grep:.<CR>
-    nnoremap <Leader>f :UniteWithCursorWord grep:.<CR>
-    nnoremap <Leader>u<CR> :Unite<CR>
-    nnoremap <Leader>ub :Unite buffer<CR>
-    nnoremap <Leader>u/ :Unite line<CR>
-    nnoremap <Leader>ur :UniteResume<CR>
-    nnoremap <Leader>us :Unite ultisnips<CR>
-    nnoremap <Leader>uq :Unite quickfix<CR>
-    nnoremap <Leader>ul :Unite location_list<CR>
-    nnoremap <Leader>um :Unite mapping<CR>
-    nnoremap <Leader>o :Unite output<CR>
-
-    vnoremap gr y:Unite grep:.::<C-R>"
-
-    autocmd FileType unite call s:unite_my_settings()
-    function! s:unite_my_settings()"{{{
-      imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-      imap <buffer> ' <Plug>(unite_quick_match_default_action)
-      nmap <buffer> ' <Plug>(unite_quick_match_default_action)
-      imap <buffer><expr> x
-            \ unite#smart_map('x', "\<Plug>(unite_quick_match_jump)")
-      nmap <buffer> x <Plug>(unite_quick_match_jump)
-      nmap <buffer> <C-j> <Plug>(unite_toggle_auto_preview)
-      nmap <buffer> <C-r> <Plug>(unite_narrowing_input_history)
-      imap <buffer> <C-r> <Plug>(unite_narrowing_input_history)
-
-      let unite = unite#get_current_unite()
-      if unite.profile_name ==# 'search'
-        nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-      else
-        nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-      endif
-    endfunction"}}}
-  endif
-
-  if exists('g:plugs["ultisnips"]') && exists('g:plugs["deoplete.nvim"]')
-    " Ultisnips and deoplete
-    " Make <CR> smart
-    let g:ulti_expand_res = 0
-    function! Ulti_ExpandOrEnter()
-      " First try to expand a snippet
-      call UltiSnips#ExpandSnippet()
-      if g:ulti_expand_res
-        " if successful, just return
-        return ''
-      elseif pumvisible()
-        " if in completion menu - just close it and leave the cursor at the
-        " end of the completion
-        return deoplete#mappings#close_popup()
-      else
-        " otherwise, just do an "enter"
-        return "\<return>"
-      endif
-    endfunction
-    inoremap <return> <C-R>=Ulti_ExpandOrEnter()<CR>
+    " Narrow by path in grep source.
+    call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
   endif
 
   if exists('g:plugs["deoplete.nvim"]')
@@ -500,38 +458,6 @@ set nocompatible              " be iMproved, required
     autocmd FileType javascript setlocal omnifunc=
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  augroup end
 
-  augroup markdown
-    au!
     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
   augroup END
-
-fu! CustomFoldText()
-  let fs = v:foldstart
-  while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
-  endwhile
-  if fs > v:foldend
-    let line = getline(v:foldstart)
-  else
-    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
-  endif
-
-  let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
-  let foldSize = 1 + v:foldend - v:foldstart
-  let foldSizeStr = " " . foldSize . " lines "
-  let foldLevelStr = repeat("+--", v:foldlevel)
-  let lineCount = line("$")
-  let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-  let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
-  return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-endf
-
-set foldtext=CustomFoldText()
-
-" Trash (Old settings no longer in use)
-  " recreate tags file for js files
-  " nnoremap ,t :call jobstart([&shell, &shcf, "find . -type f -iregex .*\.js -not -path './node_modules/*' -exec jsctags {} -f \; \| sed '/^$/d' \| sort > tags"])
-
-  " kill netrw buffer when hidden
-  " autocmd FileType netrw setl bufhidden=wipe

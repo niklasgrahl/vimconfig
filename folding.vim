@@ -40,7 +40,6 @@ function! GetPotionFold(lnum)
 endfunction
 
 fu! CustomFoldText()
-  "get first non-blank line
   let fs = v:foldstart
   while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
   endwhile
@@ -59,4 +58,5 @@ fu! CustomFoldText()
   let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
   return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
 endf
+
 set foldtext=CustomFoldText()
